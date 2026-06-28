@@ -1,0 +1,37 @@
+# Single-GPU configuration tuned for a 12 GB card (e.g. RTX 4070), mixed precision.
+# Smaller patches/batch than the thesis (which used 4x A100 at 80^3); scale up if
+# you have more VRAM. `resolution` only affects the synthetic generator — real
+# CAMELS data uses its native 128^3, so this config works for both:
+#   synthetic GPU test:  cosmomap-train --config configs/gpu.yaml --synthetic --n-sims 48
+#   real data:           set resolution: 128, point data_root at your data, then
+#                        cosmomap-train --config configs/gpu.yaml
+data:
+  data_root: data/camels
+  redshifts: [0.0, 0.5, 1.0, 1.5, 2.0]
+  fields_in: [Mcdm, Vcdm]
+  fields_out: [T, ne]
+  cosmo_params: [Omega_m, sigma_8, A_SN1, A_AGN1, A_SN2, A_AGN2]
+  resolution: 64        # synthetic box size; real CAMELS data is 128^3
+  box_size_mpc_h: 25.0
+  patch_size: 48        # 48^3 sub-volumes (divisible by 2**depth)
+  include_redshift_in_cond: false
+
+model:
+  base_filters: 64
+  depth: 3
+  groups: 8
+  cond_hidden: 192
+  dropout: 0.1
+  heteroscedastic: true
+
+train:
+  epochs: 30
+  batch_size: 2
+  learning_rate: 1.0e-4
+  lr_schedule: cosine
+  grad_clip_norm: 1.0
+  early_stop_patience: 8
+  seed: 42
+  mixed_precision: true   # Ada (40-series) has fast fp16 tensor cores
+  multi_gpu: false
+  output_dir: outputs/gpu

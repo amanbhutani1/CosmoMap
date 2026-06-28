@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "CosmoMap: deep learning for baryon prediction on CAMELS"
+abstract: >-
+  A 3D FiLM-conditioned, heteroscedastic U-Net that maps dark-matter fields to
+  gas temperature and electron number density on the CAMELS simulation suite,
+  with an X-ray emissivity and lightcone forward model. MSci dissertation
+  project, University of Nottingham.
+authors:
+  - family-names: Bhutani
+    given-names: Aman
+version: 0.1.0
+license: MIT
+keywords:
+  - cosmology
+  - deep-learning
+  - CAMELS
+  - uncertainty-quantification
+  - X-ray

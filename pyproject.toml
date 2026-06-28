@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cosmomap"
+version = "0.1.0"
+description = "Field-level deep learning that paints baryonic fields (gas temperature & electron density) onto dark-matter fields from CAMELS, with a 3D FiLM-conditioned heteroscedastic U-Net and an X-ray forward model."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [{ name = "Aman Bhutani" }]
+keywords = ["cosmology", "deep-learning", "CAMELS", "baryons", "X-ray", "uncertainty-quantification"]
+
+dependencies = [
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "tensorflow>=2.16",
+    "pyyaml>=6.0",
+    "scikit-learn>=1.3",
+    "astropy>=5.3",
+    "matplotlib>=3.7",
+    "tqdm>=4.65",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4", "ruff>=0.4", "mypy>=1.8"]
+
+[project.scripts]
+cosmomap-train = "cosmomap.train:main"
+cosmomap-evaluate = "cosmomap.evaluate:main"
+
+[tool.setuptools.packages.find]
+include = ["cosmomap*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "NPY"]
+ignore = ["E501"]  # line length handled by formatter; long equation comments are fine
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+warn_unused_ignores = true

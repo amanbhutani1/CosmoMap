@@ -1,0 +1,11 @@
+# Normalise line endings to LF for text files across platforms.
+* text=auto eol=lf
+
+# Treat binaries as binary (never normalise).
+*.png binary
+*.jpg binary
+*.fits binary
+*.npy binary
+*.npz binary
+*.h5 binary
+*.keras binary

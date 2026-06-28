@@ -1,0 +1,46 @@
+# Full configuration matching the dissertation setup (requires real CAMELS data).
+# Train with:  cosmomap-train --config configs/default.yaml
+data:
+  data_root: data/camels
+  redshifts: [0.0, 0.5, 1.0, 1.5, 2.0]
+  fields_in: [Mcdm, Vcdm]
+  fields_out: [T, ne]
+  cosmo_params: [Omega_m, sigma_8, A_SN1, A_AGN1, A_SN2, A_AGN2]
+  resolution: 128
+  box_size_mpc_h: 25.0
+  patch_size: 80
+  include_redshift_in_cond: false   # condition on the 6 CAMELS params only (Eq 7)
+  log_epsilon: 1.0e-8
+  train_val_test_split: [0.8, 0.1, 0.1]
+
+model:
+  base_filters: 64        # 64 -> 128 -> 256 channels; bottleneck held at 256
+  depth: 3
+  convs_per_block: 1      # light encoder/decoder blocks ...
+  bottleneck_convs: 2     # ... + heavier bottleneck -> ~11.1M params (thesis: 11.7M)
+  groups: 8
+  cond_hidden: 192
+  dropout: 0.1
+  heteroscedastic: true
+
+loss:
+  w_nll: 0.408
+  w_mse: 0.150
+  w_mae: 0.134
+  w_huber: 0.207
+  huber_delta: 1.0
+  lambda_positivity: 0.1
+  lambda_variance: 0.01
+
+train:
+  epochs: 100
+  batch_size: 16
+  learning_rate: 1.0e-4
+  lr_schedule: cosine
+  grad_clip_norm: 1.0
+  early_stop_patience: 10
+  seed: 42
+  mixed_precision: true
+  multi_gpu: false
+  steps_per_epoch: null
+  output_dir: outputs

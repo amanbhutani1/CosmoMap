@@ -1,0 +1,27 @@
+# Tiny configuration for the out-of-the-box demo / CI (no real data needed).
+# Train with:  cosmomap-train --config configs/synthetic.yaml --synthetic
+data:
+  data_root: data/synthetic
+  redshifts: [0.0, 1.0]
+  fields_in: [Mcdm, Vcdm]
+  fields_out: [T, ne]
+  cosmo_params: [Omega_m, sigma_8, A_SN1, A_AGN1, A_SN2, A_AGN2]
+  resolution: 32
+  box_size_mpc_h: 25.0
+  patch_size: 16
+  include_redshift_in_cond: false
+
+model:
+  base_filters: 16
+  depth: 2
+  groups: 4
+  cond_hidden: 32
+  dropout: 0.1
+  heteroscedastic: true
+
+train:
+  epochs: 2
+  batch_size: 2
+  learning_rate: 1.0e-3
+  mixed_precision: false
+  output_dir: outputs/synthetic

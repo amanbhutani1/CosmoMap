@@ -1,0 +1,13 @@
+# Core
+numpy>=1.24
+scipy>=1.10
+tensorflow>=2.16          # Keras 3. CPU build is fine for the synthetic demo; use tensorflow[and-cuda] for GPU
+pyyaml>=6.0
+
+# Evaluation / analysis
+scikit-learn>=1.3          # Random-Forest parameter recovery
+astropy>=5.3               # FITS output + cosmology for the lightcone
+matplotlib>=3.7
+
+# Progress / utilities
+tqdm>=4.65
